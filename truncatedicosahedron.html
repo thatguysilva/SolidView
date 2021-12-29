@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="icons/site-icon.png">
+    <title>Solid View</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <script src="three.js"></script>
+    <script type="module" src="GLTFLoader.js"></script>
+    <script type="module" src="OrbitControls.js"></script>
+    <script type="module">
+      import { GLTFLoader } from "./GLTFLoader.js";
+
+      var scene = new THREE.Scene();
+
+      var camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.01,
+        1000
+      );
+
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const controls = new THREE.OrbitControls( camera, renderer.domElement );
+      controls.update();
+
+      var loader = new GLTFLoader();
+
+      var obj;
+      loader.load("archimedean/truncatedicosahedron.gltf", function (gltf) {
+        obj = gltf.scene;
+        scene.add(gltf.scene);
+      });
+      scene.background = new THREE.Color(0xd3d3d3);
+      var light = new THREE.PointLight(0xffffff,1,50,2);
+      light.position.set( 2,1,5);
+      scene.add(light);
+      camera.position.set(0.7, 1, 4.2);
+      function animate() {
+        requestAnimationFrame(animate);
+        obj.rotation.y += 0.01;
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+    </script>
+  </body>
+
+  <div class="sidenav">
+      <img src="icons/archimedes-icon.png" style="position: absolute; left:10px; top: 12px">
+      <p style="position: absolute; left:129px; top: 15px; color:grey; font-size:20px;">ARCHIMEDEAN SOLID</p>
+      <p style="position: absolute; left:130px; top: 55px; color:grey; font-size:15px;"><b>TRUNCATED ICOSAHEDRON</b></p>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <hr>
+      <p style="position: absolute; left: 15px;">Faces: 32</p>
+      <br>
+      <br>
+      <p style="position: relative; left: 15px;">Edges: 90</p>
+      <p style="position: relative; left: 15px;">Vertices: 60</p>
+      <p style="position: relative; left: 15px;">Dual Solid: Pentakis Dodecahedron</p>
+      <p style="position: relative; left: 15px;">Symmetry Group: I<sub>h</sub>, H<sub>3</sub>, [5,3], (*532)</p>
+      <p style="position: relative; left: 15px;">Coxeter Diagram:</p>
+      <img src="images/coxeter-truncicosa.png" style="position: relative; left:140px; top: 10px">
+
+
+</html>
